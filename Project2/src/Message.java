@@ -1,6 +1,7 @@
 import java.util.Timer;
 
 /**
+ * 
  *	Message: 
  *		DESCRIPTION GOES HERE~!
  * 
@@ -16,26 +17,16 @@ public class Message {
 	private Timer timer;
 	private String message;
 	private String username;
-	private String status; // icannotrememberwhatthisisfor. u_u
+	private boolean read;//false = unread, true = read
 	private Key key;
 	
 	/**
 	 * Message:
 	 * 		Constructor.
 	 */
-	public Message() {
-		
-	}
-	
-	/**
-	 * create:
-	 * 		Creates message based on parameters.
-	 * 		User should specify timer.
-	 * @param message
-	 * @param username
-	 * @param status
-	 */
-	public void create(String message, String username, String status) {
+	public Message(String message) {
+		this.message = message;
+		read = false;
 		
 	}
 	
