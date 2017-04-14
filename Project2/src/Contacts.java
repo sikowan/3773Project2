@@ -30,7 +30,7 @@ public class Contacts {
 	 * @param username
 	 */
 	public void addContact(String username) {
-		
+
 	}
 	
 	/**

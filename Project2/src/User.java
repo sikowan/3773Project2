@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *	User: 
@@ -15,7 +16,7 @@ public class User {
 
 	private String lastName;
 	private String firstName;
-	private int id;
+	private String id;
 	private String password;
 	private String username;
 	private ArrayList<User> userList; 
@@ -25,7 +26,7 @@ public class User {
 	 * 		Constructor.
 	 */
 	public User() {
-
+		generateID();
 	}
 	
 	/**
@@ -34,16 +35,40 @@ public class User {
 	 * 		Calls checkID method to ensure ID fits criteria.
 	 */
 	public void generateID() {
+		Random rand = new Random();
+		id = "";		
+		int numDigits = rand.nextInt(6) + 10;
 		
+		for(int i = 0; i < numDigits; i++){
+			id += (char) ((char)rand.nextInt(10) + '0');
+		}
+		
+		// If generated ID is determined to be invalid, will regenerate ID
+		if(!checkID(id))
+			generateID();
 	}
 	
 	/**
 	 * generatePW:
 	 * 		Randomly generates a password with the following criteria:
-	 * 			16+ chars long, at least one: digit, number, special character, uppercase letter, lowercase letter.
+	 * 			16+ chars long, at least one: digit, special character, uppercase letter, lowercase letter.
 	 * 		Calls checkPW method to ensure pw fits criteria.
 	 */
 	public void generatePW() {
+		Random rand = new Random();
+		password = "";
+		int pwLength = rand.nextInt(6) + 16;
+		/*
+		char chars[] = {'0','1','2','3','4','5','6','7','8','9',
+				'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+				'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+				'!','@','#','$','%','^','&','*'
+		};*/
+		int numDigits;
+		int numUpper;
+		int numLower;
+		int numChars;
+		
 		
 	}
 	
@@ -54,7 +79,7 @@ public class User {
 	 * @param id
 	 */
 	public void deleteUser(int id) {
-		
+		userList.remove(this); 
 	}
 	
 	/**
@@ -103,8 +128,32 @@ public class User {
 	 * @param id
 	 * @return
 	 */
-	public boolean checkID(int id) {
-		return false;
+	public boolean checkID(String id) {
+		boolean status = true;
+		
+		// Checks to see if length is valid
+		if((id.length() < 10) || (id.length() > 15))
+			status = false;
+		
+		// Checks to see if characters are integers
+		for(int i = 0; i < id.length(); i++)
+		{
+			if((id.charAt(i) < '0') || (id.charAt(i) > '9'))
+				status = false;
+		}
+		
+		// Checks other users to see if ID matches any other existing ID
+		
+		/**
+		 * Commented out temporarily, causes error now since userList is empty
+		 *
+		for(User temp : userList)
+		{
+			if(temp.getID().equals(id))
+				status = false;
+		}
+		 */
+		return status;
 	}
 	
 	/**
@@ -145,7 +194,7 @@ public class User {
 	 * 		Returns id.
 	 * @return
 	 */
-	public int getID() {
+	public String getID() {
 		return id;
 	}
 	
