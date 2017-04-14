@@ -12,23 +12,15 @@
 public class Key {
 
 	private String key;
-	private String enteredKey;
 	private boolean success;
 	
 	/**
 	 * Key: 
 	 * 		Constructor.
-	 */
-	public Key() {
-		
-	}
-
-	/**
-	 * setKey:
-	 * 		Sets key for encryption.
 	 * @param key
 	 */
-	public void setKey(String key) {
+	public Key(String key) {
+		this.key = encryptKey(key);
 		
 	}
 	
@@ -37,12 +29,30 @@ public class Key {
 	 * 		Compares entered key to actual key.
 	 * 		Returns true if keys match.
 	 * 		Returns false if keys do not match.
-	 * @param key
 	 * @param enteredKey
 	 * @return
 	 */
-	public boolean keyMatch(String key, String enteredKey) {
-		return false;
+	public boolean keyMatch(String enteredKey) {
+		//encrypt given key
+		enteredKey = encryptKey(enteredKey);
+		
+		//check if the encryptions match
+		if(enteredKey.equals(this.key)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	/**
+	 * encryptKey()
+	 * 		encrypts the given string for security
+	 * @params key 
+	 * @return key - encrypted key
+	 * 
+	 */
+	private String encryptKey(String key){
+		return key;//still need to add encryption
 	}
 	
 	/**
