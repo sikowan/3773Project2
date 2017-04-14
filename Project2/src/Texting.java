@@ -18,7 +18,7 @@ public class Texting {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		User user = new User();
+		User user = new User("First", "Last");
 	}
 
 }

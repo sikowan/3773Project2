@@ -25,8 +25,11 @@ public class User {
 	 * User:
 	 * 		Constructor.
 	 */
-	public User() {
+	public User(String firstName, String lastName) {
+		this.firstName = firstName;
+		this.lastName = lastName;
 		generateID();
+		generatePW();
 	}
 	
 	/**
