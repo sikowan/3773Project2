@@ -62,19 +62,47 @@ public class User {
 	public void generatePW() {
 		Random rand = new Random();
 		password = "";
-		int pwLength = rand.nextInt(6) + 16;
-		/*
-		char chars[] = {'0','1','2','3','4','5','6','7','8','9',
-				'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
-				'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
-				'!','@','#','$','%','^','&','*'
-		};*/
-		int numDigits;
-		int numUpper;
-		int numLower;
-		int numChars;
-		
-		
+		int numDigits, numUpper, numLower, numSpecial;
+        int pwLength = 18;
+		char special[] = {'!','@','#','$','%','?','&','*'};
+
+		numLower = rand.nextInt(12);
+		numUpper = 12 - numLower;
+		numDigits = rand.nextInt(6);
+		numSpecial = 6 - numDigits;
+
+        while(pwLength != 0) {
+            switch (rand.nextInt(4)) {
+                case 0:
+                    if (numLower == 0)
+                        break;
+                    password += (char) ('a' + (char) rand.nextInt(26));
+                    numLower--;
+                    pwLength--;
+                    break;
+                case 1:
+                    if (numUpper == 0)
+                        break;
+                    password += (char) ('A' + (char) rand.nextInt(26));
+                    numUpper--;
+                    pwLength--;
+                    break;
+                case 2:
+                    if (numDigits == 0)
+                        break;
+                    password += (char) ('0' + (char) rand.nextInt(10));
+                    numDigits--;
+                    pwLength--;
+                    break;
+                case 3:
+                    if (numSpecial == 0)
+                        break;
+                    password += special[rand.nextInt(8)];
+                    numSpecial--;
+                    pwLength--;
+                    break;
+            }
+        }
 	}
 	
 	/**
