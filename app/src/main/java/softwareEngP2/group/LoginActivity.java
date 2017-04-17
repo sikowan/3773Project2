@@ -29,6 +29,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -310,9 +320,35 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             try {
                 // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
+                URL url = new URL("http://ec2-52-34-10-100.us-west-2.compute.amazonaws.com/login.php");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoOutput(true);
+                connection.setRequestMethod("POST");
+
+                OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+
+                writer.write("Test");
+                writer.close();
+
+                if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    //OK
+                    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    String inputLine;
+                    inputLine = in.readLine();
+                    JSONObject jsonObject = new JSONObject(inputLine);
+                    if (jsonObject.getString("password").equals(mPassword)){
+                        return true;
+                    }
+                    //otherwise, bad stuff happened
+                } else {
+                    //Server returned HTTP error code.
+                }
+            } catch (MalformedURLException e) {
+
+            } catch (IOException e){
+
+            } catch (JSONException e) {
+
             }
 
             for (String credential : DUMMY_CREDENTIALS) {
