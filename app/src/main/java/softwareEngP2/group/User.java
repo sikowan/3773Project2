@@ -60,16 +60,16 @@ public class User {
 	 * 		Calls checkPW method to ensure pw fits criteria.
 	 */
 	public void generatePW() {
-		Random rand = new Random();
-		password = "";
-		int numDigits, numUpper, numLower, numSpecial;
+        Random rand = new Random();
+        password = "";
+        int numDigits, numUpper, numLower, numSpecial;
         int pwLength = 18;
-		char special[] = {'!','@','#','$','%','?','&','*'};
+        char special[] = {'!','@','#','$','%','?','&','*'};
 
-		numLower = rand.nextInt(12);
-		numUpper = 12 - numLower;
-		numDigits = rand.nextInt(6);
-		numSpecial = 6 - numDigits;
+        numLower = rand.nextInt(12);
+        numUpper = 12 - numLower;
+        numDigits = rand.nextInt(6);
+        numSpecial = 6 - numDigits;
 
         while(pwLength != 0) {
             switch (rand.nextInt(4)) {
@@ -103,7 +103,11 @@ public class User {
                     break;
             }
         }
-	}
+
+        // If generated password is determined to be invalid, will regenerate password
+        if(!checkPW(password))
+            generatePW();
+    }
 	
 	/**
 	 * deleteUser:
@@ -199,7 +203,22 @@ public class User {
 	 * @return
 	 */
 	public boolean checkPW(String password) {
-		return false;
+        boolean status = true;
+
+        // Checks to see if length is valid
+        if(password.length() < 16)
+            status = false;
+
+        //
+        //
+        // Edit for-loop to check if each char is valid
+        //
+        //
+        for(int i = 0; i < password.length(); i++){
+
+
+        }
+        return status;
 	}
 	
 	/**
