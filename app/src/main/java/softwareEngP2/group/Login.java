@@ -24,7 +24,10 @@ public class Login {
 	 * 		Constructor.
 	 */
 	public Login() {
-		
+
+
+
+		// if login is first, prompt selectPassword.
 	}
 	
 	/**
@@ -46,6 +49,12 @@ public class Login {
 	 * @return
 	 */
 	public boolean verifyPassword(String password, String enteredPassword) {
+		if (password.equals(enteredPassword)) {
+			return true;
+		} else {
+			numTimesWrong++;
+			incorrectPassword(numTimesWrong);
+		}
 		return false;
 	}
 	
@@ -58,6 +67,8 @@ public class Login {
 	 * @return
 	 */
 	public boolean firstTime(int id) {
+		// if this is the first time logging in, return true;
+		// else
 		return false;
 	}
 	
@@ -77,7 +88,15 @@ public class Login {
 	 * @param numTimesWrong
 	 */
 	public void incorrectPassword(int numTimesWrong) {
-		
+		if (numTimesWrong < 3) {
+			System.out.println("You have entered the wrong password " + numTimesWrong + " times.\n" +
+					"Please be aware that accounts are locked after three incorrect attempts. " +
+					"To have your password reset, please contact your system administrator.");
+		}
+		if (numTimesWrong >= 3) {
+			// lock account, message to admin.
+			System.out.println("Your account has been locked due to 3 unsuccessful login attempts.");
+		}
 	}
 
 }

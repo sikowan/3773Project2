@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  *	Contacts: 
- *		DESCRIPTION GOES HERE~!
+ *		Allows for contacts to be added, deleted, and viewed.
  * 
  * @author Team 5
  * 			Felan, Ernesto
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class Contacts {
 	
-	private String username;
+	private User user;
 	private ArrayList<User> userList;
 
 	/**
@@ -23,34 +23,42 @@ public class Contacts {
 	 * 		Constructor.
 	 */
 	public Contacts() {
-		
+		// ?
 	}
 	
 	/**
 	 * addContact:
 	 * 		Adds user to contact list.
-	 * @param username
+	 * @param user
 	 */
-	public void addContact(String username) {
-
+	public void addContact(User user) {
+		userList.add(user);
 	}
 	
 	/**
 	 * deleteContact:
 	 * 		Deletes user from contact list.
-	 * @param username
+	 * @param user
 	 */
-	public void deleteContact(String username) {
-		
+	public void deleteContact(User user) {
+		userList.remove(user);
 	}
-	
+
+	/**
+	 * listContacts:
+	 * 		Lists contacts on list.
+	 * @return
+	 */
+	public String listContacts() {
+		return userList.toString();
+	}
+
 	/**
 	 * getContacts:
 	 * 		Returns contact list.
 	 * @return
 	 */
-	public String getContacts() {
-		return username; // this is not correct. need toString for arraylist.
+	public ArrayList<User> getContacts() {
+		return userList;
 	}
-
 }
