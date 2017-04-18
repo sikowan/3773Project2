@@ -46,9 +46,9 @@ public class Login {
 	 * 		Checks entered password with actual password.
 	 * 		Returns true if passwords match.
 	 * 		Returns false if passwords do not match.
-	 * @param password
-	 * @param enteredPassword
-	 * @return
+	 * @param password actual password
+	 * @param enteredPassword entered password
+	 * @return boolean true/false:valid/invalid
 	 */
 	public boolean verifyPassword(String password, String enteredPassword) {
 		if (password.equals(enteredPassword)) {
@@ -65,8 +65,8 @@ public class Login {
 	 * 		Checks if this is the first time id has been logged into.
 	 * 		Returns true if it is first time.
 	 * 		Returns false if it is not first time.
-	 * @param id
-	 * @return
+	 * @param id id of login
+	 * @return boolean valid or invalid
 	 */
 	public boolean firstTime(int id) {
 		// if this is the first time logging in, return true;
@@ -87,7 +87,7 @@ public class Login {
 	 * incorrectPassword:
 	 * 		Counts the amount of times the password is wrong.
 	 * 		After three attempts, alerts admin and freezes account.
-	 * @param numTimesWrong
+	 * @param numTimesWrong number of times login doesn't work
 	 */
 	public void incorrectPassword(int numTimesWrong) {
 		if (numTimesWrong < 3) {
@@ -96,7 +96,7 @@ public class Login {
 					"To have your password reset, please contact your system administrator.");
 		}
 		if (numTimesWrong >= 3) {
-			user.freezeUser(user.getID());
+			user.freezeUser();
 			System.out.println("Your account has been locked due to 3 unsuccessful login attempts.\n" +
 					"Please contact your system administrator to have your account unlocked.");
 		}
