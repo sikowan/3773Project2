@@ -22,7 +22,9 @@ public class User {
 	private String password;
 	private String username;
 	private boolean acctStatus;
-	private ArrayList<User> userList; 
+	private Contacts contacts;
+    private Box inbox;
+    private Box outbox;
 	
 	/**
 	 * User:
@@ -109,32 +111,21 @@ public class User {
         if(!checkPW(password))
             generatePW();
     }
-	
-	/**
-	 * deleteUser:
-	 * 		Delete user from database. 
-	 * 		Should free allocated memory.
-	 * @param id
-	 */
-	public void deleteUser(String id) {
-		userList.remove(this); 
-	}
-	
+
 	/**
 	 * freezeUser:
 	 * 		Freezes user account.
-	 * @param id
+	 *
 	 */
-	public void freezeUser(String id) {
+	public void freezeUser() {
 		acctStatus = false;
 	}
 	
 	/**
 	 * unfreezeUser:
 	 * 		Unfreezes user account.
-	 * @param id
 	 */
-	public void unfreezeUser(String id) {
+	public void unfreezeUser() {
 		acctStatus = true;
 	}
 	
@@ -163,8 +154,8 @@ public class User {
 	 * 			10-15 digits long, not currently in use.
 	 * 		Returns true if ID fits criteria.
 	 * 		Returns false if ID does not fit criteria.
-	 * @param id
-	 * @return
+	 * @param id generated ID
+	 * @return status true/false: valid/invalid
 	 */
 	public boolean checkID(String id) {
 		boolean status = true;
@@ -200,8 +191,8 @@ public class User {
 	 * 			16+ chars long, at least one: digit, number, special character, uppercase letter, lowercase letter.
 	 * 		Returns true if password fits criteria.
 	 * 		Returns false if password does not fit criteria.
-	 * @param password
-	 * @return
+	 * @param password generated password
+	 * @return status true/false:valid/invalid
 	 */
 	public boolean checkPW(String password) {
         boolean status = true;
@@ -227,25 +218,18 @@ public class User {
 	 * 		Checks if username already exists.
 	 * 			Returns true if the username is not taken and can be used.
 	 * 			Returns false if the username is already taken and cannot be used.
-	 * @param id
-	 * @return
+	 * @param id generated id
+	 * @return username for no errors
 	 */
 	public String checkUsername(int id) {
+        //TODO: checkUsername()
 		return username; // just returning a string for no errors
-	}
-	
-	/**
-	 * displayUserList:
-	 * 		Prints list of users. 
-	 */
-	public void displayUserList() {
-		// should we display account status as well?
 	}
 	
 	/**
 	 * getID:
 	 * 		Returns id.
-	 * @return
+	 * @return id ID of user
 	 */
 	public String getID() {
 		return id;
@@ -254,7 +238,7 @@ public class User {
 	/**
 	 * getUsername:
 	 * 		Returns username.
-	 * @return
+	 * @return username username of user
 	 */
 	public String getUsername() {
 		return username;
@@ -263,7 +247,7 @@ public class User {
 	/**
 	 * getPassword:
 	 * 		Returns password.
-	 * @return
+	 * @return password password of user
 	 */
 	public String getPassword() {
 		return password;
@@ -274,7 +258,7 @@ public class User {
 	}
 
 	public String toString() {
-		if (acctStatus == false) {
+		if (!acctStatus) {
 			return getUsername() + "\n ID: "+ getID() + "\nAccount Status: INACTIVE";
 		} else {
 			return getUsername() + "\n ID: "+ getID() + "\nAccount Status: ACTIVE";

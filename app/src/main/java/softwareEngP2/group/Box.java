@@ -1,7 +1,9 @@
 package softwareEngP2.group;
 
+import java.util.ArrayList;
+
 /**
- *	Box: 
+ *	Box:
  *		DESCRIPTION GOES HERE~!
  * 
  * @author Team 5
@@ -11,33 +13,66 @@ package softwareEngP2.group;
  * 			Olivares, Austin
  * 			Woodal, Jennifer
  */
-public interface Box {
+public class Box {
 	
+	private ArrayList<Message> messages;
+	private int total;
+	
+	/**
+	 * Box:
+	 * 		Constructor.
+	 */
+	public Box() {
+        messages = new ArrayList<Message>();
+		total = 0;
+	}
 
 	/**
 	 *  selectMessage:
 	 * 		Allows for selection of message.
 	 */
-	void selectMessage();
-	
+	public void selectMessage() {
+		//TODO: selectMessage()
+	}
+
 	/**
-	 * viewMessage: 
+	 * viewMessage:
 	 *  	Views selected message.
-	 * @param message
+	 * @param message message to be viewed
 	 */
-	void viewMessage(Message message);
+	public void viewMessage(Message message) {
+		//TODO: viewMessage()
+	}
 
 	/**
 	 * deleteMessage:
 	 *  	Deletes selected message.
-	 * @param message
+	 * @param message message to be deleted
 	 */
-	void deleteMessage(Message message);
+	public void deleteMessage(Message message) {
+		// check if message exists in messages. if it does, delete.
+		messages.remove(message);
+        total--;
+		// if it doesn't, error handling?
+	}
+
+    /**
+     * addMessage:
+     *  	add given message.
+     * @param message message to be added
+     */
+    public void addMessage(Message message){
+        messages.add(message);
+        total++;
+    }
 
 	/**
 	 * getTotalMailNum:
 	 *  	Returns total number of messages in box.
-	 * @return
+	 * @return total total number of messages in the box
 	 */
-	int getTotalMailNum();
+	public int getTotal() {
+		return total;
+	}
+
 }

@@ -14,8 +14,7 @@ import java.util.ArrayList;
  * 			Woodal, Jennifer
  */
 public class Contacts {
-	
-	private User user;
+
 	private ArrayList<User> userList;
 
 	/**
@@ -23,13 +22,13 @@ public class Contacts {
 	 * 		Constructor.
 	 */
 	public Contacts() {
-		// ?
+		userList = new ArrayList<User>();
 	}
 	
 	/**
 	 * addContact:
 	 * 		Adds user to contact list.
-	 * @param user
+	 * @param user user to be added to contact list
 	 */
 	public void addContact(User user) {
 		userList.add(user);
@@ -38,7 +37,7 @@ public class Contacts {
 	/**
 	 * deleteContact:
 	 * 		Deletes user from contact list.
-	 * @param user
+	 * @param user user to be deleted from contact list
 	 */
 	public void deleteContact(User user) {
 		userList.remove(user);
@@ -55,7 +54,7 @@ public class Contacts {
 	/**
 	 * listContacts:
 	 * 		Lists contacts on list.
-	 * @return
+	 * @return String list of contacts
 	 */
 	public String listContacts() {
 		return userList.toString();
@@ -64,7 +63,7 @@ public class Contacts {
 	/**
 	 * getContacts:
 	 * 		Returns contact list.
-	 * @return
+	 * @return userList list of contacts
 	 */
 	public ArrayList<User> getContacts() {
 		return userList;
