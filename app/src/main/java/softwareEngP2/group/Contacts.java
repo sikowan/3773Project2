@@ -45,6 +45,14 @@ public class Contacts {
 	}
 
 	/**
+	 * viewContact:
+	 * 		Lists basic contact info.
+	 */
+	public void viewContact(User user) {
+		user.toString();
+	}
+
+	/**
 	 * listContacts:
 	 * 		Lists contacts on list.
 	 * @return

@@ -21,6 +21,7 @@ public class User {
 	private String id;
 	private String password;
 	private String username;
+	private boolean acctStatus;
 	private ArrayList<User> userList; 
 	
 	/**
@@ -115,7 +116,7 @@ public class User {
 	 * 		Should free allocated memory.
 	 * @param id
 	 */
-	public void deleteUser(int id) {
+	public void deleteUser(String id) {
 		userList.remove(this); 
 	}
 	
@@ -124,8 +125,8 @@ public class User {
 	 * 		Freezes user account.
 	 * @param id
 	 */
-	public void freezeUser(int id) {
-		
+	public void freezeUser(String id) {
+		acctStatus = false;
 	}
 	
 	/**
@@ -133,8 +134,8 @@ public class User {
 	 * 		Unfreezes user account.
 	 * @param id
 	 */
-	public void unfreezeUser(int id) {
-		
+	public void unfreezeUser(String id) {
+		acctStatus = true;
 	}
 	
 	/**
@@ -268,4 +269,15 @@ public class User {
 		return password;
 	}
 
+	public boolean getAcctStatus() {
+		return acctStatus;
+	}
+
+	public String toString() {
+		if (acctStatus == false) {
+			return getUsername() + "\n ID: "+ getID() + "\nAccount Status: INACTIVE";
+		} else {
+			return getUsername() + "\n ID: "+ getID() + "\nAccount Status: ACTIVE";
+		}
+	}
 }

@@ -44,6 +44,17 @@ public class Outbox implements Box {
 	}
 
 	/**
+	 * deleteMessage:
+	 *  	Deletes selected message.
+	 * @param message
+	 */
+	public void deleteMessage(Message message) {
+		// check if message exists in messages. if it does, delete.
+		messages.remove(message);
+		// if it doesn't, error handling?
+	}
+
+	/**
 	 * getTotalMailNum:
 	 *  	Returns total number of messages in box.
 	 * @return

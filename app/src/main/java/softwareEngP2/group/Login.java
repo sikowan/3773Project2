@@ -24,16 +24,18 @@ public class Login {
 	 * 		Constructor.
 	 */
 	public Login() {
-
-
-
+		if (!user.getAcctStatus()) { // account is frozen
+			System.out.println("Your account is currently locked. Please contact your system " +
+					"administrator to have your account unlocked.");
+		} else {
+			//loginloginlogin
+		}
 		// if login is first, prompt selectPassword.
 	}
 	
 	/**
 	 * enterPassword:
 	 * 		Allows user to enter password.
-	 * 		Should call upon checkPassword method of User class to ensure password fits criteria.
 	 */
 	public void enterPassword() {
 		
@@ -94,8 +96,9 @@ public class Login {
 					"To have your password reset, please contact your system administrator.");
 		}
 		if (numTimesWrong >= 3) {
-			// lock account, message to admin.
-			System.out.println("Your account has been locked due to 3 unsuccessful login attempts.");
+			user.freezeUser(user.getID());
+			System.out.println("Your account has been locked due to 3 unsuccessful login attempts.\n" +
+					"Please contact your system administrator to have your account unlocked.");
 		}
 	}
 
