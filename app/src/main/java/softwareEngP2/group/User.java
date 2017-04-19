@@ -141,11 +141,18 @@ public class User {
 	
 	/**
 	 * changePW:
-	 * 		Allows admins to change password with the following constraints:
-	 * 			16+ chars long, at least one: digit, number, special character, uppercase letter, lowercase letter.
+	 *      Allows admins to change password with the following constraints:
+	 *          16+ chars long, at least one: digit, number, special character, uppercase letter, lowercase letter.
+     * @param password pw input from admin
+     * @return status true/false : password changed/password invalid
 	 */
-	public void changePW() {
-		
+	public boolean changePW(String password) {
+		if(checkPW(password)){
+            this.password = password;
+            return true;
+        } else{
+            return false;
+        }
 	}
 	
 	/**
@@ -194,25 +201,47 @@ public class User {
 	 * @param password generated password
 	 * @return status true/false:valid/invalid
 	 */
-	public boolean checkPW(String password) {
-        boolean status = true;
+    public boolean checkPW(String password) {
+        boolean statusSpecial, status = true;
+        int calcLength = 0;
+        char special[] = {'!','@','#','$','%','?','&','*'};
 
         // Checks to see if length is valid
         if(password.length() < 16)
             status = false;
 
-        //
-        //
-        // Edit for-loop to check if each char is valid
-        //
-        //
+        // Checks each char to see if it's valid
         for(int i = 0; i < password.length(); i++){
-
-
+            if((password.charAt(i) >= 'a') && (password.charAt(i) <= 'z')){
+                calcLength++;
+                continue;
+            } else if ((password.charAt(i) >= 'A') && (password.charAt(i) <= 'Z')){
+                calcLength++;
+                continue;
+            } else if ((password.charAt(i) >= '0') && (password.charAt(i) <= '9')){
+                calcLength++;
+                continue;
+            } else{
+                statusSpecial = false;
+                for (char c : special) {
+                    if(password.charAt(i) == c) {
+                        statusSpecial = true;
+                        calcLength++;
+                        break;
+                    }
+                }
+            }
+            if(!statusSpecial){
+                status = false;
+            }
         }
+
+        if(calcLength != password.length())
+            status = false;
+
         return status;
-	}
-	
+    }
+
 	/**
 	 * checkUsername:
 	 * 		Checks if username already exists.
@@ -221,7 +250,7 @@ public class User {
 	 * @param id generated id
 	 * @return username for no errors
 	 */
-	public String checkUsername(int id) {
+	public String checkUsername(String id) {
         //TODO: checkUsername()
 		return username; // just returning a string for no errors
 	}
