@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +30,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.*;
@@ -148,7 +160,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (mAuthTask != null) {
             return;
         }
-
+        Log.i("STATUS","BEFORE everything");
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -309,12 +321,42 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-
+            Log.i("STATUS","BEFORE everything");
+            int tmp;
             try {
                 // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
+                URL url = new URL("http://ec2-52-34-10-100.us-west-2.compute.amazonaws.com/login.php");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoOutput(true);
+                connection.setRequestMethod("POST");
+
+                OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+
+                writer.write("username=test&password="+mPassword);
+                writer.close();
+                Log.i("STATUS","BEFORE Ifs");
+                if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    //OK
+                    InputStream is = connection.getInputStream();
+                    String input = "";
+                    while((tmp = is.read()) != -1){
+                        input += (char)tmp;
+                    }
+
+                    //otherwise, bad stuff happened
+                } else {
+                    InputStream is = connection.getInputStream();
+                    String input = "";
+                    while((tmp = is.read()) != -1){
+                        input += (char)tmp;
+                    }
+                    Log.v("STATUS","WE KINDA DID IT REDDIT!" + input);
+                    //Server returned HTTP error code.
+                }
+            } catch (MalformedURLException e) {
+
+            } catch (IOException e){
+
             }
 
             for (String credential : DUMMY_CREDENTIALS) {
