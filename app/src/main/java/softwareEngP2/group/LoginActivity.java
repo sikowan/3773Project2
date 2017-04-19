@@ -332,8 +332,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                 OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
 
-                writer.write("username=test&password="+mPassword);
+                writer.write("username=burnerpower&password="+mPassword);
                 writer.close();
+
                 Log.i("STATUS","BEFORE Ifs");
                 if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     //OK
@@ -342,7 +343,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     while((tmp = is.read()) != -1){
                         input += (char)tmp;
                     }
-
+                    JSONObject jsonObject = new JSONObject(input);
+                    if(jsonObject.getString("result").equals("true")){
+                        return true;
+                    } else{
+                        return false;
+                    }
                     //otherwise, bad stuff happened
                 } else {
                     InputStream is = connection.getInputStream();
@@ -350,12 +356,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     while((tmp = is.read()) != -1){
                         input += (char)tmp;
                     }
-                    Log.v("STATUS","WE KINDA DID IT REDDIT!" + input);
+                    JSONObject jsonObject = new JSONObject(input);
+                    if(jsonObject.getString("result").equals("true")){
+                        return true;
+                    } else{
+                        return false;
+                    }
                     //Server returned HTTP error code.
                 }
             } catch (MalformedURLException e) {
 
             } catch (IOException e){
+
+            } catch (JSONException e){
 
             }
 
