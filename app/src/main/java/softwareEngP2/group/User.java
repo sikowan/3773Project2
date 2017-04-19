@@ -21,7 +21,10 @@ public class User {
 	private String id;
 	private String password;
 	private String username;
-	private ArrayList<User> userList; 
+	private boolean acctStatus;
+	private Contacts contacts;
+    private Box inbox;
+    private Box outbox;
 	
 	/**
 	 * User:
@@ -60,49 +63,70 @@ public class User {
 	 * 		Calls checkPW method to ensure pw fits criteria.
 	 */
 	public void generatePW() {
-		Random rand = new Random();
-		password = "";
-		int pwLength = rand.nextInt(6) + 16;
-		/*
-		char chars[] = {'0','1','2','3','4','5','6','7','8','9',
-				'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
-				'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
-				'!','@','#','$','%','^','&','*'
-		};*/
-		int numDigits;
-		int numUpper;
-		int numLower;
-		int numChars;
-		
-		
-	}
-	
-	/**
-	 * deleteUser:
-	 * 		Delete user from database. 
-	 * 		Should free allocated memory.
-	 * @param id
-	 */
-	public void deleteUser(int id) {
-		userList.remove(this); 
-	}
-	
+        Random rand = new Random();
+        password = "";
+        int numDigits, numUpper, numLower, numSpecial;
+        int pwLength = 18;
+        char special[] = {'!','@','#','$','%','?','&','*'};
+
+        numLower = rand.nextInt(12);
+        numUpper = 12 - numLower;
+        numDigits = rand.nextInt(6);
+        numSpecial = 6 - numDigits;
+
+        while(pwLength != 0) {
+            switch (rand.nextInt(4)) {
+                case 0:
+                    if (numLower == 0)
+                        break;
+                    password += (char) ('a' + (char) rand.nextInt(26));
+                    numLower--;
+                    pwLength--;
+                    break;
+                case 1:
+                    if (numUpper == 0)
+                        break;
+                    password += (char) ('A' + (char) rand.nextInt(26));
+                    numUpper--;
+                    pwLength--;
+                    break;
+                case 2:
+                    if (numDigits == 0)
+                        break;
+                    password += (char) ('0' + (char) rand.nextInt(10));
+                    numDigits--;
+                    pwLength--;
+                    break;
+                case 3:
+                    if (numSpecial == 0)
+                        break;
+                    password += special[rand.nextInt(8)];
+                    numSpecial--;
+                    pwLength--;
+                    break;
+            }
+        }
+
+        // If generated password is determined to be invalid, will regenerate password
+        if(!checkPW(password))
+            generatePW();
+    }
+
 	/**
 	 * freezeUser:
 	 * 		Freezes user account.
-	 * @param id
+	 *
 	 */
-	public void freezeUser(int id) {
-		
+	public void freezeUser() {
+		acctStatus = false;
 	}
 	
 	/**
 	 * unfreezeUser:
 	 * 		Unfreezes user account.
-	 * @param id
 	 */
-	public void unfreezeUser(int id) {
-		
+	public void unfreezeUser() {
+		acctStatus = true;
 	}
 	
 	/**
@@ -117,11 +141,18 @@ public class User {
 	
 	/**
 	 * changePW:
-	 * 		Allows admins to change password with the following constraints:
-	 * 			16+ chars long, at least one: digit, number, special character, uppercase letter, lowercase letter.
+	 *      Allows admins to change password with the following constraints:
+	 *          16+ chars long, at least one: digit, number, special character, uppercase letter, lowercase letter.
+     * @param password pw input from admin
+     * @return status true/false : password changed/password invalid
 	 */
-	public void changePW() {
-		
+	public boolean changePW(String password) {
+		if(checkPW(password)){
+            this.password = password;
+            return true;
+        } else{
+            return false;
+        }
 	}
 	
 	/**
@@ -130,8 +161,8 @@ public class User {
 	 * 			10-15 digits long, not currently in use.
 	 * 		Returns true if ID fits criteria.
 	 * 		Returns false if ID does not fit criteria.
-	 * @param id
-	 * @return
+	 * @param id generated ID
+	 * @return status true/false: valid/invalid
 	 */
 	public boolean checkID(String id) {
 		boolean status = true;
@@ -167,37 +198,67 @@ public class User {
 	 * 			16+ chars long, at least one: digit, number, special character, uppercase letter, lowercase letter.
 	 * 		Returns true if password fits criteria.
 	 * 		Returns false if password does not fit criteria.
-	 * @param password
-	 * @return
+	 * @param password generated password
+	 * @return status true/false:valid/invalid
 	 */
-	public boolean checkPW(String password) {
-		return false;
-	}
-	
+    public boolean checkPW(String password) {
+        boolean statusSpecial, status = true;
+        int calcLength = 0;
+        char special[] = {'!','@','#','$','%','?','&','*'};
+
+        // Checks to see if length is valid
+        if(password.length() < 16)
+            status = false;
+
+        // Checks each char to see if it's valid
+        for(int i = 0; i < password.length(); i++){
+            if((password.charAt(i) >= 'a') && (password.charAt(i) <= 'z')){
+                calcLength++;
+                continue;
+            } else if ((password.charAt(i) >= 'A') && (password.charAt(i) <= 'Z')){
+                calcLength++;
+                continue;
+            } else if ((password.charAt(i) >= '0') && (password.charAt(i) <= '9')){
+                calcLength++;
+                continue;
+            } else{
+                statusSpecial = false;
+                for (char c : special) {
+                    if(password.charAt(i) == c) {
+                        statusSpecial = true;
+                        calcLength++;
+                        break;
+                    }
+                }
+            }
+            if(!statusSpecial){
+                status = false;
+            }
+        }
+
+        if(calcLength != password.length())
+            status = false;
+
+        return status;
+    }
+
 	/**
 	 * checkUsername:
 	 * 		Checks if username already exists.
 	 * 			Returns true if the username is not taken and can be used.
 	 * 			Returns false if the username is already taken and cannot be used.
-	 * @param id
-	 * @return
+	 * @param id generated id
+	 * @return username for no errors
 	 */
-	public String checkUsername(int id) {
+	public String checkUsername(String id) {
+        //TODO: checkUsername()
 		return username; // just returning a string for no errors
-	}
-	
-	/**
-	 * displayUserList:
-	 * 		Prints list of users. 
-	 */
-	public void displayUserList() {
-		// should we display account status as well?
 	}
 	
 	/**
 	 * getID:
 	 * 		Returns id.
-	 * @return
+	 * @return id ID of user
 	 */
 	public String getID() {
 		return id;
@@ -206,7 +267,7 @@ public class User {
 	/**
 	 * getUsername:
 	 * 		Returns username.
-	 * @return
+	 * @return username username of user
 	 */
 	public String getUsername() {
 		return username;
@@ -215,10 +276,26 @@ public class User {
 	/**
 	 * getPassword:
 	 * 		Returns password.
-	 * @return
+	 * @return password password of user
 	 */
 	public String getPassword() {
 		return password;
 	}
 
+    /**
+     * getAcctStatus:
+     *      Returns account status.
+     * @return acctStatus status of user
+     */
+    public boolean getAcctStatus() {
+        return acctStatus;
+    }
+
+    public String toString() {
+        if (!acctStatus) {
+            return getUsername() + "\n ID: "+ getID() + "\nAccount Status: INACTIVE";
+        } else {
+            return getUsername() + "\n ID: "+ getID() + "\nAccount Status: ACTIVE";
+        }
+    }
 }

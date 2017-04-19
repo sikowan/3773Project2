@@ -33,41 +33,18 @@ public class Message {
 	}
 	
 	/**
-	 * send:
-	 * 		Sends message with selected key.
-	 * @param message
-	 * @param key
-	 */
-	public void send(Message message, Key key) {
-		
-	}
-	
-	/**
-	 * receive:
-	 * 		Receives messages sent to user.
-	 * @param message
-	 */
-	public void receive(Message message) {
-		
-	}
-	
-	/**
-	 * view:
+	 * toString:
 	 * 		Views message sent to user.
 	 * 		Should ask for key first, key should be confirmed before viewing is allowed.
-	 * @param message
-	 * @param key
+	 * @param key receiver entered key
 	 */
-	public void view(Message message, Key key) {
-		
+	public String toString(Key key) {
+		if(this.key.keyMatch(key.getKey())){ //if keys match
+			return message;
+		}else{
+            //TODO: throw exception for unmatched keys?
+            return "";
+        }
 	}
-	
-	/**
-	 * delete:
-	 * 		Deletes selected message.
-	 * @param message
-	 */
-	public void delete(Message message) {
-		
-	}
+
 }
