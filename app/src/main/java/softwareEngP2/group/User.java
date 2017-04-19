@@ -282,15 +282,20 @@ public class User {
 		return password;
 	}
 
-	public boolean getAcctStatus() {
-		return acctStatus;
-	}
+    /**
+     * getAcctStatus:
+     *      Returns account status.
+     * @return acctStatus status of user
+     */
+    public boolean getAcctStatus() {
+        return acctStatus;
+    }
 
-	public String toString() {
-		if (!acctStatus) {
-			return getUsername() + "\n ID: "+ getID() + "\nAccount Status: INACTIVE";
-		} else {
-			return getUsername() + "\n ID: "+ getID() + "\nAccount Status: ACTIVE";
-		}
-	}
+    public String toString() {
+        if (!acctStatus) {
+            return getUsername() + "\n ID: "+ getID() + "\nAccount Status: INACTIVE";
+        } else {
+            return getUsername() + "\n ID: "+ getID() + "\nAccount Status: ACTIVE";
+        }
+    }
 }
