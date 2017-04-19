@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,6 +35,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -157,7 +159,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (mAuthTask != null) {
             return;
         }
-
+        Log.i("STATUS","BEFORE everything");
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -317,7 +319,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-
+            Log.i("STATUS","BEFORE everything");
+            int tmp;
             try {
                 // Simulate network access.
                 URL url = new URL("http://ec2-52-34-10-100.us-west-2.compute.amazonaws.com/login.php");
@@ -327,27 +330,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                 OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
 
-                writer.write("Test");
+                writer.write("username=test&password="+mPassword);
                 writer.close();
-
+                Log.i("STATUS","BEFORE Ifs");
                 if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     //OK
-                    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    String inputLine;
-                    inputLine = in.readLine();
-                    JSONObject jsonObject = new JSONObject(inputLine);
-                    if (jsonObject.getString("password").equals(mPassword)){
-                        return true;
+                    InputStream is = connection.getInputStream();
+                    String input = "";
+                    while((tmp = is.read()) != -1){
+                        input += (char)tmp;
                     }
+
                     //otherwise, bad stuff happened
                 } else {
+                    InputStream is = connection.getInputStream();
+                    String input = "";
+                    while((tmp = is.read()) != -1){
+                        input += (char)tmp;
+                    }
+                    Log.v("STATUS","WE KINDA DID IT REDDIT!" + input);
                     //Server returned HTTP error code.
                 }
             } catch (MalformedURLException e) {
 
             } catch (IOException e){
-
-            } catch (JSONException e) {
 
             }
 
