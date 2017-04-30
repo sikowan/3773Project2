@@ -9,18 +9,18 @@
     tools:layout_editor_absoluteX="0dp">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/inboxButton"
         android:layout_width="188dp"
         android:layout_height="50dp"
+        android:layout_marginBottom="281dp"
         android:layout_marginLeft="25dp"
         android:layout_marginStart="25dp"
         android:text="@string/action_inbox"
-        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="281dp" />
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/outboxButton"
         android:layout_width="188dp"
         android:layout_height="50dp"
         android:layout_marginBottom="231dp"
@@ -31,18 +31,18 @@
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/signOutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="34dp"
         android:layout_marginEnd="28dp"
-        android:layout_marginRight="28dp"
+        android:layout_marginRight="426dp"
         android:text="@string/action_sign_out"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/sendMessageButton"
         android:layout_width="188dp"
         android:layout_height="50dp"
         android:layout_marginBottom="181dp"
@@ -53,15 +53,26 @@
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/viewProfileButton"
         android:layout_width="117dp"
         android:layout_height="51dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="62dp"
+        android:layout_marginTop="12dp"
         android:text="@string/action_profile"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/contactsButton"
+        android:layout_width="188dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="331dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
+        android:text="Contacts"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"

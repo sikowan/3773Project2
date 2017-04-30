@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class Box {
 	
 	private ArrayList<Message> messages;
+	private Message message;
 	private int total;
 	
 	/**
@@ -30,18 +31,23 @@ public class Box {
 	/**
 	 *  selectMessage:
 	 * 		Allows for selection of message.
+	 * 	@param message message to be selected
+	 *
+	 * 	               note: this method should always be called before viewMessage.
 	 */
-	public void selectMessage() {
-		//TODO: selectMessage()
+	public void selectMessage(Message message) {
+		this.message = message;
 	}
 
 	/**
 	 * viewMessage:
 	 *  	Views selected message.
-	 * @param message message to be viewed
 	 */
-	public void viewMessage(Message message) {
-		//TODO: viewMessage()
+	public void viewMessage() {
+		//TODO: figure out how to get string from user.
+		String string = "";
+		Key key = new Key(string);
+		message.toString(key);
 	}
 
 	/**

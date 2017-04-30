@@ -16,7 +16,7 @@ import java.util.Timer;
  */
 public class Message {
 
-	private Timer timer;
+	private Timer timer; //TODO: incorporate timer.
 	private String message;
 	private String username;
 	private boolean read;//false = unread, true = read
@@ -26,8 +26,9 @@ public class Message {
 	 * Message:
 	 * 		Constructor.
 	 */
-	public Message(String message) {
+	public Message(String message, Key key) {
 		this.message = message;
+		this.key = key;
 		read = false;
 		
 	}
