@@ -42,6 +42,10 @@ public class Message {
 		return message;
 
 	}
+	public int getTimeout(){
+		return timeout;
+
+	}
 
 
 }

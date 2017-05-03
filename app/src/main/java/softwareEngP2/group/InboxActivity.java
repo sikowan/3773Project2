@@ -24,22 +24,22 @@ import java.util.ArrayList;
 public class InboxActivity extends AppCompatActivity {
 
     private GetMessagesTask mGetMessagesTask;
-    ListView lv;
-    ArrayList<Message> messages;
-    ArrayList<String> usernames;
-    Bundle extras;
+    private ListView lv;
+    private ArrayList<Message> messages;
+    private ArrayList<String> usernames;
+    private Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        messages =new ArrayList<Message>();
         setContentView(R.layout.activity_inbox);
         extras=getIntent().getExtras();
 
         lv = (ListView) findViewById(R.id.inbox_listview);
 
         //Just made an Arraylist to test this out for now
-        messages = getMessagesFromServer();
+        getMessagesFromServer();
         usernames= refreshUserList();
 
         // ArrayAdapter puts contacts into listview
@@ -49,17 +49,12 @@ public class InboxActivity extends AppCompatActivity {
 
         lv.setAdapter(arrayAdapter);
 
-        lv.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                messageSelected(messages.get(position));
+          lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+              @Override
+           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               messageSelected(messages.get(position));
             }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+       });
 
     }
 
@@ -80,6 +75,10 @@ public class InboxActivity extends AppCompatActivity {
     private void messageSelected(Message message){
 
         Intent intent = new Intent(InboxActivity.this, ReadMessageActivity.class);
+        intent.putExtra("EXTRA_USERNAME",message.getUsername());
+        intent.putExtra("EXTRA_MESSAGE",message.getMessage());
+        //intent.putExtra("EXTRA_TIMEOUT",message.getTimeout());
+
         startActivity(intent);
         messages.remove(messages.indexOf(message));
         refreshUserList();
@@ -87,14 +86,9 @@ public class InboxActivity extends AppCompatActivity {
 
 
 
-    private ArrayList<Message> getMessagesFromServer(){
-        //mGetMessagesTask = new GetMessagesTask(extras.getString(Intent.EXTRA_TEXT));
-        //mGetMessagesTask.execute((Void) null);
-        ArrayList<Message> messageList= new ArrayList<Message>();
-        messageList.add(new Message("1 New message from Trent", "WE DID IT REDDIT", 1));
-        messageList.add(new Message("1 New message from Ernesto", "WE DID IT TOO REDDIT", 1));
-
-        return messageList;
+    private void getMessagesFromServer(){
+        mGetMessagesTask = new GetMessagesTask(extras.getString(Intent.EXTRA_TEXT));
+        mGetMessagesTask.execute((Void) null);
 
     }
 
