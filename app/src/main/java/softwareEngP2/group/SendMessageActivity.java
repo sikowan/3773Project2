@@ -90,7 +90,7 @@ public class SendMessageActivity extends AppCompatActivity {
 
                 OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
 
-                writer.write("sender="+mSender+"&username="+mRecepient+"&message="+mMessage);
+                writer.write("sender="+mSender+"&username="+mRecepient+"&message="+mMessage+"&timeout="+mTimeout);
                 writer.close();
 
                 if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
