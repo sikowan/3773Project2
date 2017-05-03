@@ -23,9 +23,9 @@ public class OutboxActivity extends AppCompatActivity {
 
         //Just made an Arraylist to test this out for now
         ArrayList<String> messages = new ArrayList<String>();
-        messages.add("Test test test");
-        messages.add("Testing");
-
+        messages.add("Message to Trenton");
+        messages.add("Message to Ernesto");
+        messages.add("Message to Austin");
 
         // ArrayAdapter puts contacts into listview
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
