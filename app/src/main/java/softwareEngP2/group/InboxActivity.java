@@ -193,14 +193,14 @@ public class InboxActivity extends AppCompatActivity {
             int tmp;
             try {
                 // Simulate network access.
-                URL url = new URL("http://ec2-52-34-10-100.us-west-2.compute.amazonaws.com/sendMessage.php");
+                URL url = new URL("http://ec2-52-34-10-100.us-west-2.compute.amazonaws.com/deleteMessage.php");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setDoOutput(true);
                 connection.setRequestMethod("POST");
 
                 OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
 
-                //writer.write("sender="+mSender+"&username="+mRecepient+"&message="+mMessage+"&timeout="+mTimeout);
+                writer.write("message="+mMessage);
                 writer.close();
 
                 if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
