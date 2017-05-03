@@ -114,7 +114,7 @@ public class InboxActivity extends AppCompatActivity {
             int tmp;
             try {
                 // Simulate network access.
-                URL url = new URL("http://ec2-52-34-10-100.us-west-2.compute.amazonaws.com/sendMessage.php");
+                URL url = new URL("http://ec2-52-34-10-100.us-west-2.compute.amazonaws.com/getMessage.php");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setDoOutput(true);
                 connection.setRequestMethod("POST");
@@ -132,24 +132,18 @@ public class InboxActivity extends AppCompatActivity {
                         input += (char)tmp;
                     }
                     JSONObject jsonObject = new JSONObject(input);
-                    if(jsonObject.getString("result").equals("true")){
+                    if(jsonObject.isNull("result")) {
+                        int index = 1;
+                        while (!jsonObject.getString("sender" + index).isEmpty()) {
+                            messages.add(new Message(jsonObject.getString("sender" + index), jsonObject.getString("message" + index), Integer.getInteger(jsonObject.getString("timeout" + index))));
+                        }
                         return true;
-                    } else{
+                    } else {
                         return false;
                     }
-                    //otherwise, bad stuff happened
+                        //otherwise, bad stuff happened
                 } else {
-                    InputStream is = connection.getInputStream();
-                    String input = "";
-                    while((tmp = is.read()) != -1){
-                        input += (char)tmp;
-                    }
-                    JSONObject jsonObject = new JSONObject(input);
-                    if(jsonObject.getString("result").equals("true")){
-                        return true;
-                    } else{
-                        return false;
-                    }
+                    return false;
                     //Server returned HTTP error code.
                 }
             } catch (MalformedURLException e) {
