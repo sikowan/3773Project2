@@ -24,6 +24,7 @@ import java.util.ArrayList;
 public class InboxActivity extends AppCompatActivity {
 
     private GetMessagesTask mGetMessagesTask;
+    private DeleteMessageTask mDeleteMessageTask;
     private ListView lv;
     private ArrayList<Message> messages;
     private ArrayList<String> usernames;
@@ -77,10 +78,11 @@ public class InboxActivity extends AppCompatActivity {
         Intent intent = new Intent(InboxActivity.this, ReadMessageActivity.class);
         intent.putExtra("EXTRA_USERNAME",message.getUsername());
         intent.putExtra("EXTRA_MESSAGE",message.getMessage());
-        //intent.putExtra("EXTRA_TIMEOUT",message.getTimeout());
+        intent.putExtra("EXTRA_TIMEOUT",message.getTimeout());
 
-
-        //messages.remove(messages.indexOf(message));
+        mDeleteMessageTask = new DeleteMessageTask(message.getMessage());
+        mDeleteMessageTask.execute((Void) null);
+        messages.remove(messages.indexOf(message));
         refreshUserList();
         startActivity(intent);
     }
@@ -172,6 +174,101 @@ public class InboxActivity extends AppCompatActivity {
         @Override
         protected void onCancelled() {
             mGetMessagesTask = null;
+        }
+    }
+
+
+    public class DeleteMessageTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final String mMessage;
+
+
+        DeleteMessageTask(String message) {
+            mMessage = message;
+
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+            int tmp;
+            try {
+                // Simulate network access.
+                URL url = new URL("http://ec2-52-34-10-100.us-west-2.compute.amazonaws.com/deleteMessage.php");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoOutput(true);
+                connection.setRequestMethod("POST");
+
+                OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+
+                writer.write("message="+mMessage);
+                writer.close();
+
+                if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    //OK
+                    InputStream is = connection.getInputStream();
+                    String input = "";
+                    while((tmp = is.read()) != -1){
+                        input += (char)tmp;
+                    }
+                    JSONObject jsonObject = new JSONObject(input);
+                    if(jsonObject.getString("result").equals("true")){
+                        is.close();
+                        connection.disconnect();
+                        return true;
+                    } else{
+                        is.close();
+                        connection.disconnect();
+                        return false;
+                    }
+                    //otherwise, bad stuff happened
+                } else {
+                    InputStream is = connection.getInputStream();
+                    String input = "";
+                    while((tmp = is.read()) != -1){
+                        input += (char)tmp;
+                    }
+                    JSONObject jsonObject = new JSONObject(input);
+                    if(jsonObject.getString("result").equals("true")){
+                        is.close();
+                        connection.disconnect();
+                        return true;
+                    } else{
+                        is.close();
+                        connection.disconnect();
+                        return false;
+                    }
+                    //Server returned HTTP error code.
+                }
+            } catch (MalformedURLException e) {
+
+            } catch (IOException e){
+
+            } catch (JSONException e){
+
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+
+            mDeleteMessageTask = null;
+
+            if (success){
+
+
+
+            } else {
+               // mRecepientView.setError("Could not find User");
+
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mDeleteMessageTask = null;
         }
     }
 
