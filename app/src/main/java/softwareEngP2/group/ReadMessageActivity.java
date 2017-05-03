@@ -29,6 +29,7 @@ public class ReadMessageActivity extends AppCompatActivity {
         //mTimeoutView.setText((int)(extras.get("EXTRA_TIMEOUT")));
 
 
+
     }
 
 

@@ -33,6 +33,8 @@ public class User {
 		this.lastName = lastName;
 		generateID();
 		generatePW();
+		setUsername();
+		acctStatus = true;
 	}
 	
 	/**
@@ -134,7 +136,7 @@ public class User {
 	 * 		Calls checkUsername method to ensure username is not currently in use.
 	 */
 	public void setUsername() {
-		
+		username = (firstName + " " + lastName);
 	}
 	
 	/**
@@ -291,9 +293,9 @@ public class User {
 
     public String toString() {
         if (!acctStatus) {
-            return getUsername() + "\n ID: "+ getID() + "\nAccount Status: INACTIVE";
+            return getUsername() + "\nAccount Status: INACTIVE";
         } else {
-            return getUsername() + "\n ID: "+ getID() + "\nAccount Status: ACTIVE";
+            return getUsername() + "\nAccount Status: ACTIVE";
         }
     }
 }
