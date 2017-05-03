@@ -16,12 +16,12 @@ import java.util.Timer;
  */
 public class Message {
 
-	private int timeout; //TODO: incorporate timer.
+	private long timeout; //TODO: incorporate timer.
 	private String message;
 	private String username;
 	private boolean read;//false = unread, true = read
+	private InboxActivity inbox;
 
-	
 	/**
 	 * Message:
 	 * 		Constructor.
@@ -31,7 +31,16 @@ public class Message {
 		this.message = message;
         this.timeout= timeout;
 		read=false;
-		
+	}
+
+	// Counts down, exits loop when time complete
+	public void timeoutMessage() throws InterruptedException {
+		timeout = timeout * 60 * 1000;
+		while(timeout != 0)
+		{
+			Thread.sleep(1000);
+			timeout = timeout - 1000;
+		}
 	}
 
 	public String getUsername(){
@@ -42,9 +51,8 @@ public class Message {
 		return message;
 
 	}
-	public int getTimeout(){
+	public long getTimeout(){
 		return timeout;
-
 	}
 
 
