@@ -8,6 +8,8 @@ import android.widget.Button;
 
 public class MainMenuActivity extends AppCompatActivity {
 
+    private Bundle extras;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,9 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
 
+        extras=getIntent().getExtras();
+
+
     }
 
     private void viewProfile() {
@@ -81,6 +86,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private void sendMessage() {
         Intent intent = new Intent(MainMenuActivity.this, SendMessageActivity.class);
+        intent.putExtra(Intent.EXTRA_TEXT, extras.getString(Intent.EXTRA_TEXT));
         startActivity(intent);
     }
 

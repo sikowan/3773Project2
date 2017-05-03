@@ -28,17 +28,18 @@ public class SendMessageActivity extends AppCompatActivity {
     private SendMessageTask mSendMessageTask = null;
     private TextView mRecepientView;
     private TextView mMessageView;
+    private Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_message);
-
-
+        extras= getIntent().getExtras();
         mRecepientView = (TextView) findViewById(R.id.Recepient);
         mMessageView = (TextView) findViewById(R.id.MessageBody);
-
         Button mSendButton = (Button) findViewById(R.id.sendButton);
+
+
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,22 +53,22 @@ public class SendMessageActivity extends AppCompatActivity {
         String recepient = mRecepientView.getText().toString();
         String message = mMessageView.getText().toString();
 
-        mSendMessageTask = new SendMessageTask(recepient, message);
+        mSendMessageTask = new SendMessageTask(extras.getString(Intent.EXTRA_TEXT), recepient, message);
         mSendMessageTask.execute((Void) null);
         
     }
-
-
 
 
     public class SendMessageTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mRecepient;
         private final String mMessage;
+        private final String mSender;
 
-        SendMessageTask(String recepient, String message) {
+        SendMessageTask(String sender, String recepient, String message) {
             mRecepient = recepient;
             mMessage = message;
+            mSender = sender;
         }
 
         @Override
@@ -137,7 +138,7 @@ public class SendMessageActivity extends AppCompatActivity {
                 mMessageView.setText("Message Successfully Sent");
                 finish();
             } else {
-                mRecepientView.setError("Contact Not found");
+                mRecepientView.setError("Could not find User");
 
             }
         }

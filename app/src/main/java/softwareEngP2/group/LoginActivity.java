@@ -310,6 +310,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected void onPostExecute(final Boolean success) {
             Intent intent =new Intent(LoginActivity.this, MainMenuActivity.class);
+
+            intent.putExtra(Intent.EXTRA_TEXT, mAuthTask.mUsername);
             mAuthTask = null;
             showProgress(false);
 
