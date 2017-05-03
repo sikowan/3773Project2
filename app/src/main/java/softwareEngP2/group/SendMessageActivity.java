@@ -74,21 +74,19 @@ public class SendMessageActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            Log.i("STATUS","BEFORE everything");
             int tmp;
             try {
                 // Simulate network access.
-                URL url = new URL("http://ec2-52-34-10-100.us-west-2.compute.amazonaws.com/login.php");
+                URL url = new URL("http://ec2-52-34-10-100.us-west-2.compute.amazonaws.com/sendMessage.php");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setDoOutput(true);
                 connection.setRequestMethod("POST");
 
                 OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
 
-                writer.write("username="+mRecepient+"&password="+mMessage);
+                writer.write("sender="+mSender+"&username="+mRecepient+"&message="+mMessage);
                 writer.close();
 
-                Log.i("STATUS","BEFORE Ifs");
                 if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     //OK
                     InputStream is = connection.getInputStream();
