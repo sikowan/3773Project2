@@ -20,11 +20,13 @@ public class ReadMessageActivity extends AppCompatActivity {
         extras= getIntent().getExtras();
         mUsernameView = (TextView) findViewById(R.id.UserDisp);
         mMessageView = (TextView) findViewById(R.id.MessageDisp);
-       // mTimeoutView= (TextView) findViewById(R.id.TimeoutDisp);
+        mTimeoutView= (TextView) findViewById(R.id.TimeoutDisp);
 
         mUsernameView.setText((String)extras.get("EXTRA_USERNAME"));
         mMessageView.setText((String)extras.get("EXTRA_MESSAGE"));
-        //mTimeoutView.setText((String)(extras.get("EXTRA_TIMEOUT")));
+
+
+        //mTimeoutView.setText((int)(extras.get("EXTRA_TIMEOUT")));
 
 
     }

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 public class InboxActivity extends AppCompatActivity {
 
     private GetMessagesTask mGetMessagesTask;
+    private DeleteMessageTask mDeleteMessageTask;
     private ListView lv;
     private ArrayList<Message> messages;
     private ArrayList<String> usernames;
@@ -172,6 +173,101 @@ public class InboxActivity extends AppCompatActivity {
         @Override
         protected void onCancelled() {
             mGetMessagesTask = null;
+        }
+    }
+
+
+    public class DeleteMessageTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final String mMessage;
+
+
+        DeleteMessageTask(String message) {
+            mMessage = message;
+
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+            int tmp;
+            try {
+                // Simulate network access.
+                URL url = new URL("http://ec2-52-34-10-100.us-west-2.compute.amazonaws.com/sendMessage.php");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoOutput(true);
+                connection.setRequestMethod("POST");
+
+                OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+
+                //writer.write("sender="+mSender+"&username="+mRecepient+"&message="+mMessage+"&timeout="+mTimeout);
+                writer.close();
+
+                if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    //OK
+                    InputStream is = connection.getInputStream();
+                    String input = "";
+                    while((tmp = is.read()) != -1){
+                        input += (char)tmp;
+                    }
+                    JSONObject jsonObject = new JSONObject(input);
+                    if(jsonObject.getString("result").equals("true")){
+                        is.close();
+                        connection.disconnect();
+                        return true;
+                    } else{
+                        is.close();
+                        connection.disconnect();
+                        return false;
+                    }
+                    //otherwise, bad stuff happened
+                } else {
+                    InputStream is = connection.getInputStream();
+                    String input = "";
+                    while((tmp = is.read()) != -1){
+                        input += (char)tmp;
+                    }
+                    JSONObject jsonObject = new JSONObject(input);
+                    if(jsonObject.getString("result").equals("true")){
+                        is.close();
+                        connection.disconnect();
+                        return true;
+                    } else{
+                        is.close();
+                        connection.disconnect();
+                        return false;
+                    }
+                    //Server returned HTTP error code.
+                }
+            } catch (MalformedURLException e) {
+
+            } catch (IOException e){
+
+            } catch (JSONException e){
+
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+
+            mDeleteMessageTask = null;
+
+            if (success){
+                //mRecepientView.setText("");
+                //mMessageView.setText("Message Successfully Sent");
+                finish();
+            } else {
+               // mRecepientView.setError("Could not find User");
+
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mDeleteMessageTask = null;
         }
     }
 
