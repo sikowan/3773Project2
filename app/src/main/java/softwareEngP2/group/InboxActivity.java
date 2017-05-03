@@ -28,11 +28,12 @@ public class InboxActivity extends AppCompatActivity {
     private ArrayList<Message> messages;
     private ArrayList<String> usernames;
     private Bundle extras;
-
+    private  ArrayAdapter<String> arrayAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         messages =new ArrayList<Message>();
+        usernames= new ArrayList<String>();
         setContentView(R.layout.activity_inbox);
         extras=getIntent().getExtras();
 
@@ -40,36 +41,35 @@ public class InboxActivity extends AppCompatActivity {
 
         //Just made an Arraylist to test this out for now
         getMessagesFromServer();
-        usernames= refreshUserList();
+
 
         // ArrayAdapter puts contacts into listview
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_selectable_list_item, usernames);
 
-        lv.setAdapter(arrayAdapter);
-
-          lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
               @Override
            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                messageSelected(messages.get(position));
             }
        });
 
+
     }
 
 
-    private ArrayList<String> refreshUserList(){
-        ArrayList<String> userList= new ArrayList<String>();
+
+    private void refreshUserList(){
+       usernames= new ArrayList<String>();
+
         for (Message m : messages ) {
-            userList.add(m.getUsername());
+            usernames.add(m.getUsername());
 
-        }
-        return userList;
+       }
+        arrayAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_selectable_list_item, usernames);
 
-
-
-
+        lv.setAdapter(arrayAdapter);
+       // lv.refreshDrawableState();
     }
 
     private void messageSelected(Message message){
@@ -79,9 +79,10 @@ public class InboxActivity extends AppCompatActivity {
         intent.putExtra("EXTRA_MESSAGE",message.getMessage());
         //intent.putExtra("EXTRA_TIMEOUT",message.getTimeout());
 
-        startActivity(intent);
-        messages.remove(messages.indexOf(message));
+
+        //messages.remove(messages.indexOf(message));
         refreshUserList();
+        startActivity(intent);
     }
 
 
@@ -89,7 +90,8 @@ public class InboxActivity extends AppCompatActivity {
     private void getMessagesFromServer(){
         mGetMessagesTask = new GetMessagesTask(extras.getString(Intent.EXTRA_TEXT));
         mGetMessagesTask.execute((Void) null);
-
+         //messages.add(new Message("TRENT", "HELLO", 1));
+       // refreshUserList();
     }
 
 
@@ -115,7 +117,7 @@ public class InboxActivity extends AppCompatActivity {
 
                 OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
 
-               // writer.write("sender="+mSender+"&username="+mRecepient+"&message="+mMessage+"&timeout="+mTimeout);
+                writer.write("username="+mUser);
                 writer.close();
 
                 if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
@@ -128,9 +130,12 @@ public class InboxActivity extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(input);
                     if(jsonObject.isNull("result")) {
                         int index = 1;
-                        while (!jsonObject.getString("sender" + index).isEmpty()) {
-                            messages.add(new Message(jsonObject.getString("sender" + index), jsonObject.getString("message" + index), Integer.getInteger(jsonObject.getString("timeout" + index))));
-                        }
+                        //while (!jsonObject.getString("sender" + index).isEmpty()) {
+                            messages.add(new Message(jsonObject.getString("sender" + index), jsonObject.getString("message" + index), 1));
+                            //messages.add(new Message("TRENT", "HELLO", 1));
+
+                            index++;
+                        //}
                         return true;
                     } else {
                         return false;
@@ -157,7 +162,7 @@ public class InboxActivity extends AppCompatActivity {
             mGetMessagesTask = null;
 
             if (success){
-                finish();
+                refreshUserList();
             } else {
                return;
 
