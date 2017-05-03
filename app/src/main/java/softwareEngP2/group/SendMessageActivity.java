@@ -102,8 +102,12 @@ public class SendMessageActivity extends AppCompatActivity {
                     }
                     JSONObject jsonObject = new JSONObject(input);
                     if(jsonObject.getString("result").equals("true")){
+                        is.close();
+                        connection.disconnect();
                         return true;
                     } else{
+                        is.close();
+                        connection.disconnect();
                         return false;
                     }
                     //otherwise, bad stuff happened
@@ -115,8 +119,12 @@ public class SendMessageActivity extends AppCompatActivity {
                     }
                     JSONObject jsonObject = new JSONObject(input);
                     if(jsonObject.getString("result").equals("true")){
+                        is.close();
+                        connection.disconnect();
                         return true;
                     } else{
+                        is.close();
+                        connection.disconnect();
                         return false;
                     }
                     //Server returned HTTP error code.

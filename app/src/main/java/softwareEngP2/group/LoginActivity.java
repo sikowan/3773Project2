@@ -277,8 +277,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     }
                     JSONObject jsonObject = new JSONObject(input);
                     if(jsonObject.getString("result").equals("true")){
+                        is.close();
+                        connection.disconnect();
                         return true;
                     } else{
+                        is.close();
+                        connection.disconnect();
                         return false;
                     }
                     //otherwise, bad stuff happened
@@ -290,8 +294,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     }
                     JSONObject jsonObject = new JSONObject(input);
                     if(jsonObject.getString("result").equals("true")){
+                        is.close();
+                        connection.disconnect();
                         return true;
                     } else{
+                        is.close();
+                        connection.disconnect();
                         return false;
                     }
                     //Server returned HTTP error code.
