@@ -52,7 +52,7 @@ public class SendMessageActivity extends AppCompatActivity {
         String recepient = mRecepientView.getText().toString();
         String message = mMessageView.getText().toString();
 
-        mSendMessageTask = new SendMessageTask(recepient, message);
+        mSendMessageTask = new SendMessageTask(sender, recepient, message);
         mSendMessageTask.execute((Void) null);
         
     }
@@ -64,30 +64,30 @@ public class SendMessageActivity extends AppCompatActivity {
 
         private final String mRecepient;
         private final String mMessage;
+        private final String mSender;
 
-        SendMessageTask(String recepient, String message) {
+        SendMessageTask(String sender, String recepient, String message) {
             mRecepient = recepient;
             mMessage = message;
+            mSender = sender;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            Log.i("STATUS","BEFORE everything");
             int tmp;
             try {
                 // Simulate network access.
-                URL url = new URL("http://ec2-52-34-10-100.us-west-2.compute.amazonaws.com/login.php");
+                URL url = new URL("http://ec2-52-34-10-100.us-west-2.compute.amazonaws.com/sendMessage.php");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setDoOutput(true);
                 connection.setRequestMethod("POST");
 
                 OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
 
-                writer.write("username="+mRecepient+"&password="+mMessage);
+                writer.write("sender="+mSender+"&username="+mRecepient+"&message="+mMessage);
                 writer.close();
 
-                Log.i("STATUS","BEFORE Ifs");
                 if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     //OK
                     InputStream is = connection.getInputStream();
