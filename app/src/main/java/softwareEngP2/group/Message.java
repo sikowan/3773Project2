@@ -16,7 +16,7 @@ import java.util.Timer;
  */
 public class Message {
 
-	private long timeout; //TODO: incorporate timer.
+	private int timeout; //TODO: incorporate timer.
 	private String message;
 	private String username;
 	private boolean read;//false = unread, true = read
@@ -51,7 +51,7 @@ public class Message {
 		return message;
 
 	}
-	public long getTimeout(){
+	public int getTimeout(){
 		return timeout;
 	}
 
