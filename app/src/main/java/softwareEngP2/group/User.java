@@ -293,9 +293,9 @@ public class User {
 
     public String toString() {
         if (!acctStatus) {
-            return getUsername() + "\n ID: "+ getID() + "\nAccount Status: INACTIVE";
+            return getUsername() + "\nAccount Status: INACTIVE";
         } else {
-            return getUsername() + "\n ID: "+ getID() + "\nAccount Status: ACTIVE";
+            return getUsername() + "\nAccount Status: ACTIVE";
         }
     }
 }
