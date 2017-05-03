@@ -78,10 +78,11 @@ public class InboxActivity extends AppCompatActivity {
         Intent intent = new Intent(InboxActivity.this, ReadMessageActivity.class);
         intent.putExtra("EXTRA_USERNAME",message.getUsername());
         intent.putExtra("EXTRA_MESSAGE",message.getMessage());
-        //intent.putExtra("EXTRA_TIMEOUT",message.getTimeout());
+        intent.putExtra("EXTRA_TIMEOUT",message.getTimeout());
 
-
-        //messages.remove(messages.indexOf(message));
+        mDeleteMessageTask = new DeleteMessageTask(message.getMessage());
+        mDeleteMessageTask.execute((Void) null);
+        messages.remove(messages.indexOf(message));
         refreshUserList();
         startActivity(intent);
     }
@@ -256,9 +257,9 @@ public class InboxActivity extends AppCompatActivity {
             mDeleteMessageTask = null;
 
             if (success){
-                //mRecepientView.setText("");
-                //mMessageView.setText("Message Successfully Sent");
-                finish();
+
+
+
             } else {
                // mRecepientView.setError("Could not find User");
 
