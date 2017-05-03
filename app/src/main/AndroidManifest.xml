@@ -24,23 +24,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainMenuActivity"
-            android:label="Main Menu">
-        </activity>
-        <activity android:name=".ContactsActivity"
-            android:label="Contacts">
-        </activity>
-        <activity android:name=".InboxActivity"
-            android:label="Inbox">
-        </activity>
-        <activity android:name=".OutboxActivity"
-            android:label="Outbox">
-        </activity>
-        <activity android:name=".ProfileActivity"
-            android:label="Profile">
-        </activity>
-        <activity android:name=".SendMessageActivity"
-            android:label="Send A Message"></activity>
+        <activity
+            android:name=".MainMenuActivity"
+            android:label="Main Menu"></activity>
+        <activity
+            android:name=".ContactsActivity"
+            android:label="Contacts"></activity>
+        <activity
+            android:name=".InboxActivity"
+            android:label="Inbox"></activity>
+        <activity
+            android:name=".OutboxActivity"
+            android:label="Outbox"></activity>
+        <activity
+            android:name=".ProfileActivity"
+            android:label="Profile"></activity>
+        <activity
+            android:name=".SendMessageActivity"
+            android:label="Send A Message" />
+        <activity android:name=".ReadMessageActivity"></activity>
     </application>
 
 </manifest>

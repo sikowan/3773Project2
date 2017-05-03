@@ -16,36 +16,32 @@ import java.util.Timer;
  */
 public class Message {
 
-	private Timer timer; //TODO: incorporate timer.
+	private int timeout; //TODO: incorporate timer.
 	private String message;
 	private String username;
 	private boolean read;//false = unread, true = read
-	private Key key;
+
 	
 	/**
 	 * Message:
 	 * 		Constructor.
 	 */
-	public Message(String message, Key key) {
+	public Message(String user, String message, int timeout) {
+		this.username = user;
 		this.message = message;
-		this.key = key;
-		read = false;
+        this.timeout= timeout;
+		read=false;
 		
 	}
-	
-	/**
-	 * toString:
-	 * 		Views message sent to user.
-	 * 		Should ask for key first, key should be confirmed before viewing is allowed.
-	 * @param key receiver entered key
-	 */
-	public String toString(Key key) {
-		if(this.key.keyMatch(key.getKey())){ //if keys match
-			return message;
-		}else{
-            //TODO: throw exception for unmatched keys?
-            return "";
-        }
+
+	public String getUsername(){
+		return username;
+
 	}
+	public String getMessage(){
+		return message;
+
+	}
+
 
 }

@@ -23,8 +23,6 @@ public class User {
 	private String username;
 	private boolean acctStatus;
 	private Contacts contacts;
-    private Box inbox;
-    private Box outbox;
 	
 	/**
 	 * User:

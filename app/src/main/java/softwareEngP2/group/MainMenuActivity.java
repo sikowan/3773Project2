@@ -71,6 +71,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private void viewInbox() {
         Intent intent = new Intent(MainMenuActivity.this, InboxActivity.class);
+        intent.putExtra(Intent.EXTRA_TEXT, extras.getString(Intent.EXTRA_TEXT));
         startActivity(intent);
     }
 
