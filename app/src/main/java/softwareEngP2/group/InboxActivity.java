@@ -16,8 +16,6 @@ public class InboxActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_inbox);
-
-
         setContentView(R.layout.activity_inbox);
 
         ListView lv = (ListView) findViewById(R.id.inbox_listview);
@@ -35,6 +33,10 @@ public class InboxActivity extends AppCompatActivity {
 
         lv.setAdapter(arrayAdapter);
 
+
+    }
+
+    private void messageSelected(){
 
     }
 }
