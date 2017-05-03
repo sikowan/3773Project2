@@ -28,6 +28,7 @@ public class SendMessageActivity extends AppCompatActivity {
     private SendMessageTask mSendMessageTask = null;
     private TextView mRecepientView;
     private TextView mMessageView;
+    private TextView mTimeoutView;
     private Bundle extras;
 
     @Override
@@ -37,6 +38,7 @@ public class SendMessageActivity extends AppCompatActivity {
         extras= getIntent().getExtras();
         mRecepientView = (TextView) findViewById(R.id.Recepient);
         mMessageView = (TextView) findViewById(R.id.MessageBody);
+        mTimeoutView= (TextView) findViewById(R.id.TimeoutInput);
         Button mSendButton = (Button) findViewById(R.id.sendButton);
 
 
@@ -52,8 +54,10 @@ public class SendMessageActivity extends AppCompatActivity {
     private void attemptSendMessage(){
         String recepient = mRecepientView.getText().toString();
         String message = mMessageView.getText().toString();
+        int timeout = Integer.parseInt(mTimeoutView.getText().toString());
 
-        mSendMessageTask = new SendMessageTask(extras.getString(Intent.EXTRA_TEXT), recepient, message);
+
+        mSendMessageTask = new SendMessageTask(extras.getString(Intent.EXTRA_TEXT), recepient, message, timeout);
         mSendMessageTask.execute((Void) null);
         
     }
@@ -64,11 +68,13 @@ public class SendMessageActivity extends AppCompatActivity {
         private final String mRecepient;
         private final String mMessage;
         private final String mSender;
+        private final int mTimeout;
 
-        SendMessageTask(String sender, String recepient, String message) {
+        SendMessageTask(String sender, String recepient, String message, int timeout) {
             mRecepient = recepient;
             mMessage = message;
             mSender = sender;
+            mTimeout=timeout;
         }
 
         @Override
